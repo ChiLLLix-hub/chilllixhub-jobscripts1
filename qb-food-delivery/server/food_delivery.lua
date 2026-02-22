@@ -19,7 +19,7 @@ RegisterNetEvent("L-foodelivery:tryDeliver", function()
     -- Legitimate delivery check
     if HasItem(src, Config_FoodDelivery.DeliveryItem) then
         RemoveItem(src, Config_FoodDelivery.DeliveryItem, 1)
-        AddCash(src, Config_FoodDelivery.DeliveryReward)
+        AddMoney(src, 'cash', Config_FoodDelivery.DeliveryReward)
         TriggerClientEvent("L-foodelivery:completeDelivery", src)
     else
         TriggerClientEvent("L-foodelivery:failDelivery", src)

@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local Config = Config_FoodDelivery
 local currentSpawnIndex = 1
 local onDelivery = false
 local deliveryPed = nil
@@ -123,16 +122,6 @@ CreateThread(function()
         -- TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(deliveryVehicle))
         if GetResourceState('qb-vehiclekeys') == 'started' then
             TriggerServerEvent("qb-vehiclekeys:server:AcquireVehicleKeys", GetVehicleNumberPlateText(deliveryVehicle))
-        end
-
-        local Player = QBCore.Functions.GetPlayerData()
-        if Player and Player.charinfo then
-            local gender = Player.charinfo.gender
-            if gender == 0 then
-                TriggerEvent("illenium-appearance:client:loadOutfit", Config.Clothes.male)
-            else
-                TriggerEvent("illenium-appearance:client:loadOutfit", Config.Clothes.female)
-            end
         end
 
         TriggerEvent("L-foodelivery:startDelivery")
