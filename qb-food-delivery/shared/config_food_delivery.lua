@@ -54,3 +54,11 @@ Config_FoodDelivery.Clothes = {
 }
 
 Config_FoodDelivery.ReturnZone = vector3(106.28, 304.86, 110.03)
+
+-- Food Delivery blip preferences
+Config_FoodDelivery.FoodDeliveryBlip = {
+    scale    = 0.8,    -- blip size (e.g. 0.5 = small, 1.0 = default, 2.0 = large)
+    color    = 2,      -- blip colour index (see https://docs.fivem.net/game-references/blips/#blip-colors)
+    opacity  = 255,    -- blip opacity 0 (transparent) - 255 (fully visible)
+    hideBlip = false,  -- set to true to hide the blip from the map entirely
+}

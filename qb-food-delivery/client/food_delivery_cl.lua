@@ -100,6 +100,14 @@ CreateThread(function()
     local restaurantBlip = AddBlipForCoord(Config_FoodDelivery.RestaurantPed.coords.x, Config_FoodDelivery.RestaurantPed.coords.y, Config_FoodDelivery.RestaurantPed.coords.z)
     SetBlipSprite(restaurantBlip, 953)
     SetBlipAsShortRange(restaurantBlip, true)
+    SetBlipScale(restaurantBlip, Config_FoodDelivery.FoodDeliveryBlip.scale)
+    SetBlipColour(restaurantBlip, Config_FoodDelivery.FoodDeliveryBlip.color)
+    SetBlipAlpha(restaurantBlip, Config_FoodDelivery.FoodDeliveryBlip.opacity)
+    if Config_FoodDelivery.FoodDeliveryBlip.hideBlip then
+        SetBlipDisplay(restaurantBlip, 0)
+    else
+        SetBlipDisplay(restaurantBlip, 4)
+    end
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString("Food Delivery")
     EndTextCommandSetBlipName(restaurantBlip)
