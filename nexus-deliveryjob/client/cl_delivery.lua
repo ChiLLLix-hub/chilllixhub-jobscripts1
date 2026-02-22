@@ -7,6 +7,7 @@ local isOnDeliveryDuty = false
 local myJobPoint = 1
 local drops = {}
 local currentDest = nil
+local jobPeds = {}
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Job-location blips + qb-target zones (start / end duty)
@@ -22,6 +23,23 @@ Citizen.CreateThread(function()
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString("Delivery Job")
         EndTextCommandSetBlipName(blip)
+
+        -- Spawn NPC at the job accept location
+        local pedModel = GetHashKey("s_m_m_postal_01")
+        RequestModel(pedModel)
+        while not HasModelLoaded(pedModel) do
+            Citizen.Wait(5)
+        end
+        local jobPed = CreatePed(4, pedModel, b.v.x, b.v.y, b.v.z, b.h, false, true)
+        SetEntityInvincible(jobPed, true)
+        SetBlockingOfNonTemporaryEvents(jobPed, true)
+        SetPedFleeAttributes(jobPed, 0, false)
+        SetPedCombatAttributes(jobPed, 46, true)
+        SetEntityAsMissionEntity(jobPed, true, true)
+        FreezeEntityPosition(jobPed, true)
+        TaskStartScenarioInPlace(jobPed, "WORLD_HUMAN_STAND_MOBILE", 0, true)
+        SetModelAsNoLongerNeeded(pedModel)
+        jobPeds[k] = jobPed
 
         exports['qb-target']:AddCircleZone("nexus_delivery_job_" .. k, b.v, 3.0, {
             name = "nexus_delivery_job_" .. k,
