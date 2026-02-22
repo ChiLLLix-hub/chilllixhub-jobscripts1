@@ -32,7 +32,7 @@ local function deleteChute(chute)
 end
 
 local function convertHex(hex)
-    local hex = hex:gsub("#", "")
+    hex = hex:gsub("#", "")
 
     local r = tonumber(hex:sub(1, 2), 16) or 0
     local g = tonumber(hex:sub(3, 4), 16) or 0
@@ -64,7 +64,6 @@ local function startJump(coords, style, trail)
     SetVehicleEngineOn(HELI, true, true)
     Wait(100)
     TaskHeliMission(PILOT, HELI, 0, 0, coords.xyz, 4, 0.0, -1.0, -1.0, -1, -1, -1.0, 0)
-    SetVehicleEngineOn(HELI, true, true)
     SetHeliBladesFullSpeed(HELI)
     SetVehicleEngineOn(HELI, true, true, false)
     ActivatePhysics(HELI)
@@ -142,7 +141,7 @@ local function startJump(coords, style, trail)
     DetachSynchronizedScene(scene2)
     DeleteEntity(HELI)
     DeleteEntity(PILOT)
-    HELI, PILOT = nil
+    HELI, PILOT = nil, nil
     
     SetModelAsNoLongerNeeded(Config.HeliModel)
     SetModelAsNoLongerNeeded(Config.PilotModel)
@@ -234,9 +233,7 @@ local function initPed()
             options = {
                 {
                     label = 'View Locations',
-                    action = function()
-                        viewJumps()
-                    end,
+                    action = viewJumps,
                 },
             }
         })
@@ -252,7 +249,7 @@ function createPedSpawn()
     START_ZONE = lib.points.new({
         coords = Config.Ped.coords.xyz,
         distance = 50,
-        pedData = data,
+        pedData = nil,
         onEnter = initPed,
         onExit = removePed,
     })
