@@ -16,7 +16,7 @@ Locales['en'] = {
     go_to_next_delivery = "Proceed to the next delivery.",
     job_finished = "You have finished the job. Here are your clothes and the $300 deposit back.",
 
-    -- ox_target interaction labels
+    -- qb-target interaction labels
     label_talk_michael = "Talk to Michael",
     label_load_package = "Take package",
     label_deliver_package = "Deliver package",

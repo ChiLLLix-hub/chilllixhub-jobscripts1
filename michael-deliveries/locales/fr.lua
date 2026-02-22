@@ -16,7 +16,7 @@ Locales['fr'] = {
     go_to_next_delivery = "Dirigez-vous vers la prochaine livraison.",
     job_finished = "Tu as terminé le travail. Voici tes vêtements et les 300$ de caution.",
 
-    -- Étiquettes pour les interactions ox_target
+    -- Étiquettes pour les interactions qb-target
     label_talk_michael = "Parler à Michael",
     label_load_package = "Prendre le colis",
     label_deliver_package = "Livrer le colis",

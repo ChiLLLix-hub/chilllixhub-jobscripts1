@@ -16,7 +16,7 @@ Locales['it'] = {
     go_to_next_delivery = "Dirigiti alla prossima consegna.",
     job_finished = "Hai terminato il lavoro. Ecco a te i tuoi abiti e i 300$ di cauzione.",
 
-    -- Etichette per le interazioni ox_target
+    -- Etichette per le interazioni qb-target
     label_talk_michael = "Parla con Michael",
     label_load_package = "Prendi pacco",
     label_deliver_package = "Consegna pacco",

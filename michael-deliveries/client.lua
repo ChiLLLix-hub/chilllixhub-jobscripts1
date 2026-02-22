@@ -81,23 +81,26 @@ local function spawnDeliveryPed(coords)
     FreezeEntityPosition(deliveryPed, true)
     SetEntityInvincible(deliveryPed, true)
     SetBlockingOfNonTemporaryEvents(deliveryPed, true)
-    exports.ox_target:addLocalEntity(deliveryPed, {
-        {
-            name = 'dropOffPackage',
-            label = Translations.label_deliver_package,
-            icon = 'fa-solid fa-box',
-            event = 'deliveries:dropOffPackage',
-            canInteract = function()
-                return isHoldingPackage
-            end
-        }
+    exports['qb-target']:AddTargetEntity(deliveryPed, {
+        options = {
+            {
+                type = 'client',
+                label = Translations.label_deliver_package,
+                icon = 'fa-solid fa-box',
+                event = 'deliveries:dropOffPackage',
+                canInteract = function()
+                    return isHoldingPackage
+                end
+            }
+        },
+        distance = 2.5
     })
     table.insert(deliveryPeds, deliveryPed)
 end
 
 local function deleteDeliveryPed(ped)
     if DoesEntityExist(ped) then
-        exports.ox_target:removeLocalEntity(ped, { 'dropOffPackage' })
+        exports['qb-target']:RemoveTargetEntity(ped)
         FreezeEntityPosition(ped, false)
         TaskWanderStandard(ped --[[ ped ]], 1 --[[ number ]], 1 --[[ integer ]])
 
@@ -142,25 +145,28 @@ local function spawnMichael()
     FreezeEntityPosition(michaelNPC, true)
     SetEntityInvincible(michaelNPC, true)
     SetBlockingOfNonTemporaryEvents(michaelNPC, true)
-    exports.ox_target:addLocalEntity(michaelNPC, {
-        {
-            name = 'startJob',
-            label = Translations.label_talk_michael,
-            icon = 'fa-solid fa-user',
-            event = 'deliveries:beginMission',
-            canInteract = function()
-                return not isInDelivery
-            end
+    exports['qb-target']:AddTargetEntity(michaelNPC, {
+        options = {
+            {
+                type = 'client',
+                label = Translations.label_talk_michael,
+                icon = 'fa-solid fa-user',
+                event = 'deliveries:beginMission',
+                canInteract = function()
+                    return not isInDelivery
+                end
+            },
+            {
+                type = 'client',
+                label = Translations.label_end_job,
+                icon = 'fa-solid fa-user-slash',
+                event = 'deliveries:endJob',
+                canInteract = function()
+                    return isInDelivery
+                end
+            }
         },
-        {
-            name = 'endJob',
-            label = Translations.label_end_job,
-            icon = 'fa-solid fa-user-slash',
-            event = 'deliveries:endJob',
-            canInteract = function()
-                return isInDelivery
-            end
-        }
+        distance = 2.5
     })
 end
 
@@ -223,16 +229,19 @@ local function spawnDeliveryVan()
     furgone = CreateVehicle(Config.VanModel, Config.VanSpawnCoords.x, Config.VanSpawnCoords.y, Config.VanSpawnCoords.z, Config.VanSpawnHeading, true, false)
     SetVehicleOnGroundProperly(furgone)
     SetVehicleEngineOn(furgone, false, false, false)
-    exports.ox_target:addLocalEntity(furgone, {
-        {
-            name = 'takePackage',
-            label = Translations.label_load_package,
-            icon = 'fa-solid fa-box',
-            event = 'deliveries:takePackage',
-            canInteract = function()
-                return not isHoldingPackage and currentDeliveryIndex <= Config.TotalPackages
-            end
-        }
+    exports['qb-target']:AddTargetEntity(furgone, {
+        options = {
+            {
+                type = 'client',
+                label = Translations.label_load_package,
+                icon = 'fa-solid fa-box',
+                event = 'deliveries:takePackage',
+                canInteract = function()
+                    return not isHoldingPackage and currentDeliveryIndex <= Config.TotalPackages
+                end
+            }
+        },
+        distance = 2.5
     })
 
     if Config.Framework == "qbcore" then
