@@ -2,8 +2,8 @@ Config = {}
 
 Config.Debug = false
 
----𝗙𝗥𝗔𝗠𝗘𝗪𝗢𝗥𝗞 (Choose the desired frame work you are using) works with --[[ qb, esx, nd, qbx ]]
-Config.Framework = 'qb' -- change me ! 
+---𝗙𝗥𝗔𝗠𝗘𝗪𝗢𝗥𝗞 – QBCore only
+Config.Framework = 'qb'
 
 Config.DropOffs = {
     [1] = vector3(152.52, 237.36, 106.97),
@@ -41,7 +41,7 @@ Config.Payouts = {
         return math.random(650, 850)
     end,
     [2] = function()
-        return math.random(480, 220)
+        return math.random(220, 480) -- Bug fix: was math.random(480, 220) which errors (min > max)
     end,
     [3] = function()
         return math.random(1000, 1200)
