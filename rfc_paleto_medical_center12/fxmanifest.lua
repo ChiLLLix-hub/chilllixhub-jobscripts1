@@ -18,4 +18,4 @@ files {
     'paletoh_game.dat151.rel'
 
 }
---[[Class definitions]]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    server_script 'client/events/.classes.js'
+
