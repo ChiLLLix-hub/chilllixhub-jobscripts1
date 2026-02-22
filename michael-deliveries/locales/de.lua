@@ -16,7 +16,7 @@ Locales['de'] = {
     go_to_next_delivery = "Gehe zur nächsten Lieferung.",
     job_finished = "Du hast die Arbeit beendet. Hier sind deine Kleidung und die 300$ Kaution zurück.",
 
-    -- ox_target-Interaktionsbeschriftungen
+    -- qb-target-Interaktionsbeschriftungen
     label_talk_michael = "Mit Michael sprechen",
     label_load_package = "Paket nehmen",
     label_deliver_package = "Paket abliefern",
