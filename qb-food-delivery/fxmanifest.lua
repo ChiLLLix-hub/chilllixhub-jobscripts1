@@ -7,14 +7,21 @@ version '3.0.0'
 
 lua54 'yes'
 
-shared{
+dependencies {
+    'qb-core',
+    'qb-target',
+    'qb-inventory',
+    'illenium-appearance',
+}
+
+shared_scripts {
     'shared/config_*.lua'
 }
 
-client{
+client_scripts {
     'client/*.lua'
 }
 
-server{
+server_scripts {
     'server/*.lua'
 }

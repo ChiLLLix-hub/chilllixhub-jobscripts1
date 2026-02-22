@@ -1,8 +1,5 @@
 Config_FoodDelivery = {}
 
-Config_FoodDelivery.UseOxInventory = false   -- true = ox_inventory, false = qb-inventory
-Config_FoodDelivery.UseOxTarget = false      -- true = ox_target, false = qb-target
-
 Config_FoodDelivery.DeliveryItem = "bungkusan"   -- change your delivery item as your please
 Config_FoodDelivery.DeliveryReward = math.random(550, 600)
 

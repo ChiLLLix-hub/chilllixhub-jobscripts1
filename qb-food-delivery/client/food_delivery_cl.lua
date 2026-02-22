@@ -1,5 +1,4 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-local Config = Config_FoodDelivery
 local currentSpawnIndex = 1
 local onDelivery = false
 local deliveryPed = nil
@@ -129,9 +128,9 @@ CreateThread(function()
         if Player and Player.charinfo then
             local gender = Player.charinfo.gender
             if gender == 0 then
-                TriggerEvent("illenium-appearance:client:loadOutfit", Config.Clothes.male)
+                TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.male)
             else
-                TriggerEvent("illenium-appearance:client:loadOutfit", Config.Clothes.female)
+                TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.female)
             end
         end
 
