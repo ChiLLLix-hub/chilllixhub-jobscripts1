@@ -5,6 +5,14 @@ local deliveryPed = nil
 local deliveryBlip = nil
 local deliveryVehicle = nil
 local ReturnZone = Config_FoodDelivery.ReturnZone
+local originalOutfit = nil
+
+local function RestoreOutfit()
+    if originalOutfit then
+        TriggerEvent("illenium-appearance:client:loadSkin", originalOutfit)
+        originalOutfit = nil
+    end
+end
 
 RegisterNetEvent("L-foodelivery:startDelivery", function()
     if not onDelivery then onDelivery = true end
@@ -133,6 +141,9 @@ CreateThread(function()
 
         local Player = QBCore.Functions.GetPlayerData()
         if Player and Player.charinfo then
+            if not originalOutfit then
+                originalOutfit = Player.skin
+            end
             local gender = Player.charinfo.gender
             if gender == 0 then
                 TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.male)
@@ -180,6 +191,7 @@ CreateThread(function()
 
                             deliveryPed, deliveryBlip = nil, nil
                             onDelivery = false
+                            RestoreOutfit()
 
                             QBCore.Functions.Notify("You returned the vehicle and ended your job. Good work!", "success")
                         end
@@ -215,6 +227,7 @@ AddEventHandler('onResourceStop', function(resource)
         if deliveryPed and DoesEntityExist(deliveryPed) then DeletePed(deliveryPed) end
         if deliveryBlip and DoesBlipExist(deliveryBlip) then RemoveBlip(deliveryBlip) end
         if deliveryVehicle and DoesEntityExist(deliveryVehicle) then DeleteVehicle(deliveryVehicle) end
+        RestoreOutfit()
         print("^1[INFO]^0 L-foodelivery client script stopped.")
     end
 end)
