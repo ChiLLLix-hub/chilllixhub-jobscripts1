@@ -89,6 +89,13 @@ end)
 
 -- Spawn restaurant NPC and set target interaction
 CreateThread(function()
+    local restaurantBlip = AddBlipForCoord(Config_FoodDelivery.RestaurantPed.coords.x, Config_FoodDelivery.RestaurantPed.coords.y, Config_FoodDelivery.RestaurantPed.coords.z)
+    SetBlipSprite(restaurantBlip, 953)
+    SetBlipAsShortRange(restaurantBlip, true)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString("Food Delivery")
+    EndTextCommandSetBlipName(restaurantBlip)
+
     RequestModel(Config_FoodDelivery.RestaurantPed.model)
     while not HasModelLoaded(Config_FoodDelivery.RestaurantPed.model) do Wait(10) end
 
