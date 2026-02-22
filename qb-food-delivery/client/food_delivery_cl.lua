@@ -124,6 +124,16 @@ CreateThread(function()
             TriggerServerEvent("qb-vehiclekeys:server:AcquireVehicleKeys", GetVehicleNumberPlateText(deliveryVehicle))
         end
 
+        local Player = QBCore.Functions.GetPlayerData()
+        if Player and Player.charinfo then
+            local gender = Player.charinfo.gender
+            if gender == 0 then
+                TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.male)
+            else
+                TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.female)
+            end
+        end
+
         TriggerEvent("L-foodelivery:startDelivery")
     end)
 end)

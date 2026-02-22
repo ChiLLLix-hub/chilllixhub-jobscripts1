@@ -11,6 +11,7 @@ dependencies {
     'qb-core',
     'qb-target',
     'qb-inventory',
+    'illenium-appearance',
 }
 
 shared_scripts {

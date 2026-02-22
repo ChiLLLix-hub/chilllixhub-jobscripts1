@@ -32,4 +32,25 @@ Config_FoodDelivery.VehicleSpawns = {
 
 Config_FoodDelivery.DeliveryVehicleModel = "aerox155" -- change your vehicles as your please with correct spawn name
 
+Config_FoodDelivery.Clothes = {
+    male = {
+        outfitData = {
+            ['t-shirt'] = {item = 15, texture = 0},
+            ['torso2']  = {item = 336, texture = 0},
+            ['arms']    = {item = 11, texture = 0},
+            ['pants']   = {item = 51, texture = 0},
+            ['shoes']   = {item = 129, texture = 0}
+        }
+    },
+    female = {
+        outfitData = {
+            ['t-shirt'] = {item = 14, texture = 0},
+            ['torso2']  = {item = 500, texture = 0},
+            ['arms']    = {item = 49, texture = 0},
+            ['pants']   = {item = 199, texture = 2},
+            ['shoes']   = {item = 422, texture = 0}
+        }
+    }
+}
+
 Config_FoodDelivery.ReturnZone = vector3(106.28, 304.86, 110.03)
