@@ -5,13 +5,9 @@ local deliveryPed = nil
 local deliveryBlip = nil
 local deliveryVehicle = nil
 local ReturnZone = Config_FoodDelivery.ReturnZone
-local originalOutfit = nil
 
 local function RestoreOutfit()
-    if originalOutfit then
-        TriggerEvent("illenium-appearance:client:loadSkin", originalOutfit)
-        originalOutfit = nil
-    end
+    TriggerEvent("illenium-appearance:client:reloadSkin", true)
 end
 
 RegisterNetEvent("L-foodelivery:startDelivery", function()
@@ -149,14 +145,11 @@ CreateThread(function()
 
         local Player = QBCore.Functions.GetPlayerData()
         if Player and Player.charinfo then
-            if not originalOutfit then
-                originalOutfit = Player.skin
-            end
             local gender = Player.charinfo.gender
             if gender == 0 then
-                TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.male)
+                TriggerEvent("illenium-appearance:client:loadJobOutfit", Config_FoodDelivery.Clothes.male)
             else
-                TriggerEvent("illenium-appearance:client:loadOutfit", Config_FoodDelivery.Clothes.female)
+                TriggerEvent("illenium-appearance:client:loadJobOutfit", Config_FoodDelivery.Clothes.female)
             end
         end
 
