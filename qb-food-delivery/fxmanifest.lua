@@ -11,7 +11,6 @@ dependencies {
     'qb-core',
     'qb-target',
     'qb-inventory',
-    'qb-input',
     'illenium-appearance',
 }
 

@@ -165,7 +165,11 @@ CreateThread(function()
                 icon   = 'fas fa-shopping-bag',
                 label  = 'Buy ' .. Config_FoodDelivery.DeliveryItem .. ' ($' .. Config_FoodDelivery.ItemPrice .. ' each)',
                 action = function()
-                    exports['qb-input']:ShowInput({
+                    if GetResourceState('qb-input') ~= 'started' then
+                        QBCore.Functions.Notify("Input resource (qb-input) is not running.", "error")
+                        return
+                    end
+                    local input = exports['qb-input']:ShowInput({
                         header = 'Buy ' .. Config_FoodDelivery.DeliveryItem,
                         submitText = 'Buy',
                         inputs = {
@@ -176,15 +180,14 @@ CreateThread(function()
                                 isRequired = true,
                             }
                         }
-                    }, function(input)
-                        if not input then return end
-                        local qty = math.floor(tonumber(input['quantity']) or 0)
-                        if qty <= 0 then
-                            QBCore.Functions.Notify("Please enter a valid quantity.", "error")
-                            return
-                        end
-                        TriggerServerEvent("L-foodelivery:buyDeliveryItem", qty)
-                    end)
+                    })
+                    if not input then return end
+                    local qty = math.floor(tonumber(input['quantity']) or 0)
+                    if qty <= 0 then
+                        QBCore.Functions.Notify("Please enter a valid quantity.", "error")
+                        return
+                    end
+                    TriggerServerEvent("L-foodelivery:buyDeliveryItem", qty)
                 end
             }
         },
