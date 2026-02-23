@@ -192,6 +192,7 @@ CreateThread(function()
 
                             deliveryPed, deliveryBlip = nil, nil
                             onDelivery = false
+                            Wait(500) -- Allow cache.vehicle to clear after vehicle deletion before reloading skin
                             RestoreOutfit()
 
                             QBCore.Functions.Notify("You returned the vehicle and ended your job. Good work!", "success")
