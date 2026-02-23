@@ -1,6 +1,6 @@
 Config_FoodDelivery = {}
 
-Config_FoodDelivery.DeliveryItem = "bungkusan"   -- change your delivery item as your please
+Config_FoodDelivery.DeliveryItem = "sandwich"   -- change your delivery item as your please
 Config_FoodDelivery.DeliveryReward = math.random(550, 600)
 
 Config_FoodDelivery.DeliveryLocations = {
