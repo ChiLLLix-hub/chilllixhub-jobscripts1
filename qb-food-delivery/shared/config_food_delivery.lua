@@ -2,7 +2,7 @@ Config_FoodDelivery = {}
 
 Config_FoodDelivery.DeliveryItem = "sandwich"   -- change your delivery item as your please
 Config_FoodDelivery.DeliveryReward = math.random(550, 600)
-Config_FoodDelivery.ItemPrice = 50              -- price to buy the delivery item from the ped
+Config_FoodDelivery.ItemPrice = 2              -- price to buy the delivery item from the ped
 
 Config_FoodDelivery.DeliveryLocations = {
     vector4(-1019.25, -1018.49, 1.15, 33.08),
