@@ -29,6 +29,23 @@ RegisterNetEvent("L-foodelivery:tryDeliver", function()
     ActiveDeliveries[src] = nil
 end)
 
+RegisterNetEvent("L-foodelivery:buyDeliveryItem", function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+
+    local price = Config_FoodDelivery.ItemPrice
+    local cash = Player.PlayerData.money['cash']
+
+    if cash >= price then
+        Player.Functions.RemoveMoney('cash', price, 'bought_delivery_item')
+        AddItem(src, Config_FoodDelivery.DeliveryItem, 1)
+        TriggerClientEvent('QBCore:Notify', src, 'You bought a ' .. Config_FoodDelivery.DeliveryItem .. ' for $' .. price .. '.', 'success')
+    else
+        TriggerClientEvent('QBCore:Notify', src, 'You do not have enough cash. Need $' .. price .. '.', 'error')
+    end
+end)
+
 AddEventHandler("playerDropped", function()
     local src = source
     ActiveDeliveries[src] = nil

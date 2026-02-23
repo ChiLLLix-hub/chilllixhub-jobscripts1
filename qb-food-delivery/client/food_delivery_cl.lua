@@ -116,45 +116,61 @@ CreateThread(function()
     SetEntityInvincible(ped, true)
     SetBlockingOfNonTemporaryEvents(ped, true)
 
-    AddTargetToEntity(ped, "Start Delivery Job", "fas fa-hamburger", function()
-        if onDelivery then
-            QBCore.Functions.Notify("You're already on a delivery!", "error")
-            return
-        end
+    exports['qb-target']:AddTargetEntity(ped, {
+        options = {
+            {
+                icon   = 'fas fa-hamburger',
+                label  = 'Start Delivery Job',
+                action = function()
+                    if onDelivery then
+                        QBCore.Functions.Notify("You're already on a delivery!", "error")
+                        return
+                    end
 
-        local spawn = Config_FoodDelivery.VehicleSpawns[currentSpawnIndex]
-        currentSpawnIndex = currentSpawnIndex + 1
-        if currentSpawnIndex > #Config_FoodDelivery.VehicleSpawns then currentSpawnIndex = 1 end
+                    local spawn = Config_FoodDelivery.VehicleSpawns[currentSpawnIndex]
+                    currentSpawnIndex = currentSpawnIndex + 1
+                    if currentSpawnIndex > #Config_FoodDelivery.VehicleSpawns then currentSpawnIndex = 1 end
 
-        RequestCollisionAtCoord(spawn.x, spawn.y, spawn.z)
-        while not HasCollisionLoadedAroundEntity(PlayerPedId()) do Wait(10) end
+                    RequestCollisionAtCoord(spawn.x, spawn.y, spawn.z)
+                    while not HasCollisionLoadedAroundEntity(PlayerPedId()) do Wait(10) end
 
-        local vehModel = GetHashKey(Config_FoodDelivery.DeliveryVehicleModel)
-        RequestModel(vehModel)
-        while not HasModelLoaded(vehModel) do Wait(10) end
+                    local vehModel = GetHashKey(Config_FoodDelivery.DeliveryVehicleModel)
+                    RequestModel(vehModel)
+                    while not HasModelLoaded(vehModel) do Wait(10) end
 
-        deliveryVehicle = CreateVehicle(vehModel, spawn.x, spawn.y, spawn.z, spawn.w, true, false)
-        SetVehicleOnGroundProperly(deliveryVehicle)
-        SetEntityAsMissionEntity(deliveryVehicle, true, true)
-        SetVehicleNumberPlateText(deliveryVehicle, "DELIVERY123")
-        TaskWarpPedIntoVehicle(PlayerPedId(), deliveryVehicle, -1)
-        -- TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(deliveryVehicle))
-        if GetResourceState('qb-vehiclekeys') == 'started' then
-            TriggerServerEvent("qb-vehiclekeys:server:AcquireVehicleKeys", GetVehicleNumberPlateText(deliveryVehicle))
-        end
+                    deliveryVehicle = CreateVehicle(vehModel, spawn.x, spawn.y, spawn.z, spawn.w, true, false)
+                    SetVehicleOnGroundProperly(deliveryVehicle)
+                    SetEntityAsMissionEntity(deliveryVehicle, true, true)
+                    SetVehicleNumberPlateText(deliveryVehicle, "DELIVERY123")
+                    TaskWarpPedIntoVehicle(PlayerPedId(), deliveryVehicle, -1)
+                    -- TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(deliveryVehicle))
+                    if GetResourceState('qb-vehiclekeys') == 'started' then
+                        TriggerServerEvent("qb-vehiclekeys:server:AcquireVehicleKeys", GetVehicleNumberPlateText(deliveryVehicle))
+                    end
 
-        local Player = QBCore.Functions.GetPlayerData()
-        if Player and Player.charinfo then
-            local gender = Player.charinfo.gender
-            if gender == 0 then
-                TriggerEvent("illenium-appearance:client:loadJobOutfit", Config_FoodDelivery.Clothes.male)
-            else
-                TriggerEvent("illenium-appearance:client:loadJobOutfit", Config_FoodDelivery.Clothes.female)
-            end
-        end
+                    local Player = QBCore.Functions.GetPlayerData()
+                    if Player and Player.charinfo then
+                        local gender = Player.charinfo.gender
+                        if gender == 0 then
+                            TriggerEvent("illenium-appearance:client:loadJobOutfit", Config_FoodDelivery.Clothes.male)
+                        else
+                            TriggerEvent("illenium-appearance:client:loadJobOutfit", Config_FoodDelivery.Clothes.female)
+                        end
+                    end
 
-        TriggerEvent("L-foodelivery:startDelivery")
-    end)
+                    TriggerEvent("L-foodelivery:startDelivery")
+                end
+            },
+            {
+                icon   = 'fas fa-shopping-bag',
+                label  = 'Buy ' .. Config_FoodDelivery.DeliveryItem .. ' ($' .. Config_FoodDelivery.ItemPrice .. ')',
+                action = function()
+                    TriggerServerEvent("L-foodelivery:buyDeliveryItem")
+                end
+            }
+        },
+        distance = 2.0
+    })
 end)
 
 CreateThread(function()
