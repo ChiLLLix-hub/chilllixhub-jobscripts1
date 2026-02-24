@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'Randolio'
-description 'Ghost Hunting [QB/ESX]'
+description 'Ghost Hunting [QB]'
 lua54 'yes'
 
 shared_scripts {'@ox_lib/init.lua'}
