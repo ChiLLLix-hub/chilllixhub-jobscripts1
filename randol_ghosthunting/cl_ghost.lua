@@ -2,6 +2,7 @@ local cachedLocations = {}
 local storedPoints = {}
 local ghosts = {}
 local ptfxGhost = {}
+local closestGhost = nil
 local holdingCam = false
 local takingPhoto = false
 local fov_max = 80.0
@@ -71,10 +72,9 @@ local function completedMessage(num, amount)
     EndScaleformMovieMethod()
     PlaySoundFrontend(-1, 'Collect_Shard', 'Ghost_Hunt_Sounds', false)
     CreateThread(function()
-        local sec = 5
-        while sec > 0 do
-            Wait(1)
-            sec = sec - 0.01
+        local endTime = GetGameTimer() + 5000
+        while GetGameTimer() < endTime do
+            Wait(0)
             DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
         end
         SetScaleformMovieAsNoLongerNeeded(scaleform)
@@ -289,14 +289,12 @@ local function nearGhost(data)
             SetModelAsNoLongerNeeded(model)
         end
     else
-        if currentHour >= 2 and currentHour < 23 then
-            if DoesEntityExist(ghosts[data.index]) then
-                StopParticleFxLooped(ptfxGhost[data.index], true)
-                DeleteEntity(ghosts[data.index])
-                ghosts[data.index] = nil
-                ptfxGhost[data.index] = nil
-                closestGhost = nil
-            end
+        if DoesEntityExist(ghosts[data.index]) then
+            StopParticleFxLooped(ptfxGhost[data.index], true)
+            DeleteEntity(ghosts[data.index])
+            ghosts[data.index] = nil
+            ptfxGhost[data.index] = nil
+            closestGhost = nil
         end
     end
 end
