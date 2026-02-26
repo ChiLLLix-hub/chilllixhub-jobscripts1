@@ -54,6 +54,21 @@ RegisterNetEvent("L-foodelivery:buyDeliveryItem", function(quantity)
     end
 end)
 
+RegisterNetEvent("L-foodelivery:applyVehicleLostFine", function()
+    local src = source
+    if not ActiveDeliveries[src] then return end
+
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+
+    -- Fine is applied regardless of available balance (requirement: deduct $5000 no matter what)
+    local currentBank = Player.PlayerData.money['bank']
+    Player.Functions.SetMoney('bank', currentBank - 5000, 'delivery_vehicle_lost_fine')
+    TriggerClientEvent('QBCore:Notify', src, 'You lost the delivery vehicle! $5,000 has been deducted from your bank account.', 'error')
+
+    ActiveDeliveries[src] = nil
+end)
+
 AddEventHandler("playerDropped", function()
     local src = source
     ActiveDeliveries[src] = nil

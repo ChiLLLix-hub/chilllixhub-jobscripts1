@@ -197,7 +197,7 @@ end)
 
 CreateThread(function()
     while true do
-        if onDelivery and deliveryVehicle and DoesEntityExist(deliveryVehicle) then
+        if onDelivery then
             local ped = PlayerPedId()
             local coords = GetEntityCoords(ped)
             local dist = #(coords - ReturnZone)
@@ -207,36 +207,55 @@ CreateThread(function()
                     4.0, 4.0, 1.0, 0, 255, 0, 150, false, true, 2, nil, nil, false)
 
                 if dist < 3.0 then
-                    local veh = GetVehiclePedIsIn(ped, false)
+                    if deliveryVehicle and DoesEntityExist(deliveryVehicle) then
+                        local veh = GetVehiclePedIsIn(ped, false)
 
-                    if veh ~= 0 and veh == deliveryVehicle then
-                        DrawText3D(ReturnZone.x, ReturnZone.y, ReturnZone.z + 1.0, "[E] Return Vehicle & End Job")
+                        if veh ~= 0 and veh == deliveryVehicle then
+                            DrawText3D(ReturnZone.x, ReturnZone.y, ReturnZone.z + 1.0, "[E] Return Vehicle & End Job")
+
+                            if IsControlJustReleased(0, 38) then
+                                -- Ensure vehicle deletion
+                                if NetworkHasControlOfEntity(veh) then
+                                    DeleteVehicle(veh)
+                                else
+                                    NetworkRequestControlOfEntity(veh)
+                                    Wait(100)
+                                    DeleteVehicle(veh)
+                                end
+
+                                deliveryVehicle = nil
+
+                                -- Cleanup
+                                if deliveryPed and DoesEntityExist(deliveryPed) then DeletePed(deliveryPed) end
+                                if deliveryBlip and DoesBlipExist(deliveryBlip) then RemoveBlip(deliveryBlip) end
+
+                                deliveryPed, deliveryBlip = nil, nil
+                                onDelivery = false
+                                Wait(500) -- Allow cache.vehicle to clear after vehicle deletion before reloading skin
+                                RestoreOutfit()
+
+                                QBCore.Functions.Notify("You returned the vehicle and ended your job. Good work!", "success")
+                            end
+                        else
+                            DrawText3D(ReturnZone.x, ReturnZone.y, ReturnZone.z + 1.0, "You must be in the delivery vehicle to return it.")
+                        end
+                    else
+                        -- No delivery vehicle present — allow ending the job with a fine
+                        DrawText3D(ReturnZone.x, ReturnZone.y, ReturnZone.z + 1.0, "[E] End Job (Warning: $5,000 fine for missing vehicle)")
 
                         if IsControlJustReleased(0, 38) then
-                            -- Ensure vehicle deletion
-                            if NetworkHasControlOfEntity(veh) then
-                                DeleteVehicle(veh)
-                            else
-                                NetworkRequestControlOfEntity(veh)
-                                Wait(100)
-                                DeleteVehicle(veh)
-                            end
-
-                            deliveryVehicle = nil
-
                             -- Cleanup
                             if deliveryPed and DoesEntityExist(deliveryPed) then DeletePed(deliveryPed) end
                             if deliveryBlip and DoesBlipExist(deliveryBlip) then RemoveBlip(deliveryBlip) end
 
                             deliveryPed, deliveryBlip = nil, nil
+                            deliveryVehicle = nil
                             onDelivery = false
-                            Wait(500) -- Allow cache.vehicle to clear after vehicle deletion before reloading skin
-                            RestoreOutfit()
 
-                            QBCore.Functions.Notify("You returned the vehicle and ended your job. Good work!", "success")
+                            TriggerServerEvent("L-foodelivery:applyVehicleLostFine")
+                            Wait(500)
+                            RestoreOutfit()
                         end
-                    else
-                        DrawText3D(ReturnZone.x, ReturnZone.y, ReturnZone.z + 1.0, "You must be in the delivery vehicle to return it.")
                     end
                 end
 
