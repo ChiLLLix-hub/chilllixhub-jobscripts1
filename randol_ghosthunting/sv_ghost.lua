@@ -17,7 +17,7 @@ local ghostLocations = {
 local function doShuffle(locs)
     local size = #locs
     for i = size, 1, -1 do
-        local rand = math.random(size)
+        local rand = math.random(i)
         locs[i], locs[rand] = locs[rand], locs[i]
     end
     return locs
